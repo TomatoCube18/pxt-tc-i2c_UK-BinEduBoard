@@ -2,40 +2,40 @@
   * TC-I2C-UK_EDUBOARD
   */
 
-
+  
   enum DIGITS {
     //% block=0
-    "0" = 0,
+    "DIGIT_0" = 0,
     //% block=1
-    "1",
+    "DIGIT_1",
     //% block=2
-    "2",
+    "DIGIT_2",
     //% block=3
-    "3",
+    "DIGIT_3",
     //% block=4
-    "4",
+    "DIGIT_4",
     //% block=5
-    "5",
+    "DIGIT_5",
     //% block=6
-    "6",
+    "DIGIT_6",
     //% block=7
-    "7",
+    "DIGIT_7",
     //% block=8
-    "8",
+    "DIGIT_8",
     //% block=9
-    "9",
+    "DIGIT_9",
     //% block=A
-    "A",
+    "DIGIT_A",
     //% block=B
-    "B",
+    "DIGIT_B",
     //% block=C
-    "C",
+    "DIGIT_C",
     //% block=D
-    "D",
+    "DIGIT_D",
     //% block=E
-    "E",
+    "DIGIT_E",
     //% block=F
-    "F"
+    "DIGIT_F"
 
 }
 
@@ -127,8 +127,8 @@ namespace i2cBinEduBoard {
     //% block="Display (Hex) %hexDigit at Position %pos with Decimal %decimal"
     //% pos.min=1 pos.max=4
     //% weight=60 
-    export function isLineDetected(hexDigit:DIGITS, pos: number, decimal:boolean): void {
-        let displayBinary = hexDigit | (decimal << 4);
+    export function set7SegLED(hexDigit:DIGITS, pos: number, decimal:boolean): void {
+        let displayBinary = hexDigit | (decimal ? 0x10 : 0x00);
         writeBinEduBoardI2C(pos, displayBinary, 0x00);
     }
 
@@ -139,7 +139,7 @@ namespace i2cBinEduBoard {
     //% block="Display (Hex) %val on LED array"
     //% pos.min=0 pos.max=255
     //% weight=50 
-    export function isLineDetected(val: number): void {
+    export function setBinaryLED(val: number): void {
         writeBinEduBoardI2C(0x05, 0x00, val);
     }
 
@@ -149,9 +149,9 @@ namespace i2cBinEduBoard {
     //% blockId="display_trafficlight"
     //% block="Set red %r_val , yellow %y_val , green %g_val and ClockColon %c_val LED"
     //% weight=40 
-    export function isLineDetected(r_val: boolean, y_val: boolean, g_val: boolean, c_val: boolean): void {
-        let displayBinary = (c_val << 8) | (g_val << 2) | (y_val << 1) | (r_val);
-        writeBinEduBoardI2C(0x06, 0x00, val);
+    export function setIndicatorLED(r_val: boolean, y_val: boolean, g_val: boolean, c_val: boolean): void {
+        let displayBinary = (c_val ? 0x80: 0x00) | (g_val ? 0x04: 0x00) | (y_val ? 0x02: 0x00) | (r_val ? 0x01: 0x00);
+        writeBinEduBoardI2C(0x06, 0x00, displayBinary);
     }
 
 }
