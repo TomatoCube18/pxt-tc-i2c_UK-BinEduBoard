@@ -11,8 +11,8 @@ namespace i2cBinEduBoard {
 
     function readSW(): void {
         let readbuf = pins.i2cReadBuffer(BINEDUBOARD_I2C_ADDR, pins.sizeOf(NumberFormat.UInt8LE) * 2)
-        BinSwReading = readbuf[0];
-        TactSwReading = (readbuf[1] >> 6) & 0x03;
+        BinSwReading = readbuf[1];
+        TactSwReading = readbuf[0];
     }
     
     /**
@@ -46,7 +46,7 @@ namespace i2cBinEduBoard {
     //% weight=80 
     export function isSwitchPressed(pos: number): boolean {
         readSW();
-        return ((TactSwReading & (0x1 << (pos-1))) != 0 )
+        return ((TactSwReading & (0x1 << (pos-1))) == 0 )
     }
 
     function writeBinEduBoardI2C(byte1: number, byte2: number, byte3: number): void {
