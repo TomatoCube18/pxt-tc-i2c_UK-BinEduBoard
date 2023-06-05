@@ -2,44 +2,6 @@
   * TC-I2C-UK_EDUBOARD
   */
 
-  
-  enum DIGITS {
-    //% block=0
-    "DIGIT_0" = 0,
-    //% block=1
-    "DIGIT_1",
-    //% block=2
-    "DIGIT_2",
-    //% block=3
-    "DIGIT_3",
-    //% block=4
-    "DIGIT_4",
-    //% block=5
-    "DIGIT_5",
-    //% block=6
-    "DIGIT_6",
-    //% block=7
-    "DIGIT_7",
-    //% block=8
-    "DIGIT_8",
-    //% block=9
-    "DIGIT_9",
-    //% block=A
-    "DIGIT_A",
-    //% block=B
-    "DIGIT_B",
-    //% block=C
-    "DIGIT_C",
-    //% block=D
-    "DIGIT_D",
-    //% block=E
-    "DIGIT_E",
-    //% block=F
-    "DIGIT_F"
-
-}
-
-
 
   //% color="#275C6B" icon="\uf1ca weight=95 block="I2C-UK-Bin_EduBoard"
 namespace i2cBinEduBoard {
@@ -91,19 +53,19 @@ namespace i2cBinEduBoard {
         pins.i2cWriteNumber(
             BINEDUBOARD_I2C_ADDR,
             byte1,
-            NumberFormat.UInt8BE,
+            NumberFormat.UInt8LE,
             true
         )
         pins.i2cWriteNumber(
             BINEDUBOARD_I2C_ADDR,
             byte2,
-            NumberFormat.UInt8BE,
+            NumberFormat.UInt8LE,
             true
         )
         pins.i2cWriteNumber(
             BINEDUBOARD_I2C_ADDR,
             byte3,
-            NumberFormat.UInt8BE,
+            NumberFormat.UInt8LE,
             false
         )
 
@@ -124,11 +86,12 @@ namespace i2cBinEduBoard {
      * Display Digit at position.
      */
     //% blockId="display_digit"
-    //% block="Display (Hex) %hexDigit at Position %pos with Decimal %decimal"
+    //% block="Display (Hex) %hexDigit at Position %pos with Decimal Pt. %decimal"
+    //% hexDigit.min=0 hexDigit.max=15
     //% pos.min=1 pos.max=4
     //% weight=60 
-    export function set7SegLED(hexDigit:DIGITS, pos: number, decimal:boolean): void {
-        let displayBinary = hexDigit | (decimal ? 0x10 : 0x00);
+    export function set7SegLED(hexDigit:number, pos: number, decimal:boolean): void {
+        let displayBinary = (hexDigit & 0x0F) | (decimal ? 0x10 : 0x00);
         writeBinEduBoardI2C(pos, displayBinary, 0x00);
     }
 
@@ -136,7 +99,7 @@ namespace i2cBinEduBoard {
      * Display Binary LED.
      */
     //% blockId="display_binary"
-    //% block="Display (Hex) %val on LED array"
+    //% block="Display (Binary) %val on LED array"
     //% val.min=0 val.max=255
     //% weight=50 
     export function setBinaryLED(val: number): void {
