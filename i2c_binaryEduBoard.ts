@@ -43,7 +43,7 @@ namespace i2cBinEduBoard {
     //% weight=100 
     export function readBinary(): number {
         readSW();
-        return swap8(BinSwReading);       
+        return ~(swap8(BinSwReading));       
     }
 
     /**
@@ -124,7 +124,7 @@ namespace i2cBinEduBoard {
     //% block="Set red %r_val ,yellow %y_val ,green %g_val and ClockColon %c_val LED States"
     //% weight=40 
     export function setIndicatorLED(r_val: boolean, y_val: boolean, g_val: boolean, c_val: boolean): void {
-        let displayBinary = (c_val ? 0x80: 0x00) | (g_val ? 0x04: 0x00) | (y_val ? 0x02: 0x00) | (r_val ? 0x01: 0x00);
+        let displayBinary = (c_val ? 0x80: 0x00) | (r_val ? 0x04: 0x00) | (y_val ? 0x02: 0x00) | (g_val ? 0x01: 0x00);
         writeBinEduBoardI2C(0x06, 0x00, displayBinary);
     }
 
