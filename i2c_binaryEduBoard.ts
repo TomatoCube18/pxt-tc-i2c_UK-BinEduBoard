@@ -8,6 +8,12 @@ namespace i2cBinEduBoard {
     let BINEDUBOARD_I2C_ADDR = 0x18 
     let TactSwReading = 0;
     let BinSwReading = 0;
+    let ledData = [0, 0, 0];
+
+    //% block="Set the i2c Address |addr %addr" 
+    export function setAddr(addr: ADDRESS) {
+        BINEDUBOARD_I2C_ADDR = addr;
+    }
 
     function readSW(): void {
         let readbuf = pins.i2cReadBuffer(BINEDUBOARD_I2C_ADDR, pins.sizeOf(NumberFormat.UInt8LE) * 2)
@@ -15,6 +21,11 @@ namespace i2cBinEduBoard {
         TactSwReading = readbuf[0];
     }
     
+    function swap8(val) {     
+        return  ((val & 0x1) << 7) | ((val & 0x2) << 5) | ((val & 0x4) << 3) | ((val & 0x8) << 1) |  
+        ((val >> 1) & 0x8) | ((val >> 3) & 0x4) | ((val >> 5) & 0x2) | ((val >> 7) & 0x1); 
+    }
+
     /**
      * Read Binary Switches from Binary EduBoard.
      */
@@ -22,7 +33,7 @@ namespace i2cBinEduBoard {
     //% weight=100 
     export function readBinary(): number {
         readSW();
-        return BinSwReading       
+        return swap8(BinSwReading);       
     }
 
     /**
@@ -30,45 +41,35 @@ namespace i2cBinEduBoard {
      */
     //% blockId="is_switch_toggle"
     //% block="Binary Switch state at Position %pos"
-    //% pos.min=1 pos.max=8
+    //% pos.min=0 pos.max=7
     //% weight=90 
     export function isSwitchToggle(pos: number): boolean {
         readSW();
-        return ((BinSwReading & (0x1 << (pos-1))) != 0 )
+        return ((BinSwReading & (0x1 << (7-pos))) == 0 )
     }
 
     /**
-     * Query Tactile Switch 1 or 2.
+     * Query Tactile Switch 0 or 1.
      */
     //% blockId="is_switch_press"
     //% block="Tactile Switch state at Position %pos"
-    //% pos.min=1 pos.max=2
+    //% pos.min=0 pos.max=1
     //% weight=80 
     export function isSwitchPressed(pos: number): boolean {
         readSW();
-        return ((TactSwReading & (0x1 << (pos-1))) == 0 )
+        return ((TactSwReading & (0x1 << (pos))) == 0 )
     }
 
     function writeBinEduBoardI2C(byte1: number, byte2: number, byte3: number): void {
-        pins.i2cWriteNumber(
+        ledData[0] = byte1;
+        ledData[1] = byte2;
+        ledData[2] = byte3;
+        
+        pins.i2cWriteBuffer(
             BINEDUBOARD_I2C_ADDR,
-            byte1,
-            NumberFormat.UInt8LE,
-            true
-        )
-        pins.i2cWriteNumber(
-            BINEDUBOARD_I2C_ADDR,
-            byte2,
-            NumberFormat.UInt8LE,
-            true
-        )
-        pins.i2cWriteNumber(
-            BINEDUBOARD_I2C_ADDR,
-            byte3,
-            NumberFormat.UInt8LE,
+            Buffer.fromArray(ledData),
             false
-        )
-
+            );
     }
 
     /**
@@ -103,7 +104,7 @@ namespace i2cBinEduBoard {
     //% val.min=0 val.max=255
     //% weight=50 
     export function setBinaryLED(val: number): void {
-        writeBinEduBoardI2C(0x05, 0x00, val);
+        writeBinEduBoardI2C(0x05, 0x00, swap8(val));
     }
 
     /**
