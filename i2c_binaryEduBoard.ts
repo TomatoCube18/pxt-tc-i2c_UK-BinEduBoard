@@ -137,7 +137,7 @@ namespace i2cBinEduBoard {
      */
     //% blockId="display_binary"
     //% block="Display (Hex) %val on LED array"
-    //% pos.min=0 pos.max=255
+    //% val.min=0 val.max=255
     //% weight=50 
     export function setBinaryLED(val: number): void {
         writeBinEduBoardI2C(0x05, 0x00, val);
@@ -147,7 +147,7 @@ namespace i2cBinEduBoard {
      * Display Traffic LED.
      */
     //% blockId="display_trafficlight"
-    //% block="Set red %r_val , yellow %y_val , green %g_val and ClockColon %c_val LED"
+    //% block="Set red %r_val ,yellow %y_val ,green %g_val and ClockColon %c_val LED States"
     //% weight=40 
     export function setIndicatorLED(r_val: boolean, y_val: boolean, g_val: boolean, c_val: boolean): void {
         let displayBinary = (c_val ? 0x80: 0x00) | (g_val ? 0x04: 0x00) | (y_val ? 0x02: 0x00) | (r_val ? 0x01: 0x00);
