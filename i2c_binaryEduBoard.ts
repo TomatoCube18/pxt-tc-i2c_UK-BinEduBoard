@@ -21,6 +21,7 @@ namespace i2cBinEduBoard {
     let ledData = [0, 0, 0];
 
     //% block="Set the i2c Address |addr %addr" 
+    //% weight=110 
     export function setAddr(addr: ADDRESS) {
         BINEDUBOARD_I2C_ADDR = addr;
     }
@@ -105,6 +106,21 @@ namespace i2cBinEduBoard {
         let displayBinary = (hexDigit & 0x0F) | (decimal ? 0x10 : 0x00);
         writeBinEduBoardI2C(pos, displayBinary, 0x00);
     }
+
+    /**
+     * Display Digit at position.
+     */
+    //% blockId="display_digit"
+    //% block="Display Custom Segments at Position %pos with Segments A %a , Segments B %b, Segments C %c, Segments D %d, Segments E %e, Segments F %f, Segments G %g and Decimal Pt. %decimal"
+    //% pos.min=1 pos.max=4
+    //% weight=60 
+    export function set7SegLED(pos: number, a: boolean, b: boolean, c: boolean, 
+    d: boolean, e: boolean, f: boolean, g: boolean, decimal:boolean): void {
+        let displayBinary = (decimal ? 0x80:0) | (g ? 0x40:0) | | (f ? 0x20:0) | | (e ? 0x10:0) | 
+                            | (d ? 0x08:0) | | (c ? 0x04:0) | | (b ? 0x02:0) | | (a ? 0x01:0);
+        writeBinEduBoardI2C(pos, 0xAA, displayBinary);
+    }
+
 
     /**
      * Display Binary LED.
