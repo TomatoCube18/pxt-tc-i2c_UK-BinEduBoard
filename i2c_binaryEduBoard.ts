@@ -44,8 +44,8 @@
   //% color="#275C6B" icon="\uf1ca weight=95 block="I2C-UK-Bin_EduBoard"
 namespace i2cBinEduBoard {
     let BINEDUBOARD_I2C_ADDR = 0x18 
-    var TactSwReading = 0;
-    var BinSwReading = 0;
+    let TactSwReading = 0;
+    let BinSwReading = 0;
 
     function readSW(): void {
         let readbuf = pins.i2cReadBuffer(BINEDUBOARD_I2C_ADDR, pins.sizeOf(NumberFormat.UInt8LE) * 2)
