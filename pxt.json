@@ -1,0 +1,17 @@
+{
+    "name": "TC-I2C-UK_EDUBOARD",
+    "version": "1.0.0",
+    "description": "Makecode block for I2C UK-Binary EduBoard",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "i2c_binaryEduBoard.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true
+}
