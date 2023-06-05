@@ -2,6 +2,16 @@
   * TC-I2C-UK_EDUBOARD
   */
 
+  enum ADDRESS {                    
+    //% block=0x18
+    A30 = 0x18,               // 
+    //% block=0x19
+    A31 = 0x21,                // 
+    //% block=0x1A
+    A32 = 0x1A,                // 
+    //% block=0x1B
+    A33 = 0x1B,                // 
+}
 
   //% color="#275C6B" icon="\uf1ca weight=95 block="I2C-UK-Bin_EduBoard"
 namespace i2cBinEduBoard {
@@ -21,7 +31,7 @@ namespace i2cBinEduBoard {
         TactSwReading = readbuf[0];
     }
     
-    function swap8(val) {     
+    function swap8(val : number): number {     
         return  ((val & 0x1) << 7) | ((val & 0x2) << 5) | ((val & 0x4) << 3) | ((val & 0x8) << 1) |  
         ((val >> 1) & 0x8) | ((val >> 3) & 0x4) | ((val >> 5) & 0x2) | ((val >> 7) & 0x1); 
     }
