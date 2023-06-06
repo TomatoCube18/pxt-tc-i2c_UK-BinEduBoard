@@ -116,8 +116,7 @@ namespace i2cBinEduBoard {
     //% weight=60 
     export function set7SegLED(pos: number, a: boolean, b: boolean, c: boolean, 
     d: boolean, e: boolean, f: boolean, g: boolean, decimal:boolean): void {
-        let displayBinary = (decimal ? 0x80:0) | (g ? 0x40:0) | | (f ? 0x20:0) | | (e ? 0x10:0) | 
-                            | (d ? 0x08:0) | | (c ? 0x04:0) | | (b ? 0x02:0) | | (a ? 0x01:0);
+        let displayBinary = (decimal ? 0x80:0) | (g ? 0x40:0) | (f ? 0x20:0) | (e ? 0x10:0) | (d ? 0x08:0) | (c ? 0x04:0) | (b ? 0x02:0) | (a ? 0x01:0);
         writeBinEduBoardI2C(pos, 0xAA, displayBinary);
     }
 
