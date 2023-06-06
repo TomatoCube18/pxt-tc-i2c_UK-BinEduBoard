@@ -1,6 +1,6 @@
 {
     "name": "TC-I2C-UK_EDUBOARD",
-    "version": "1.12.0",
+    "version": "1.13.0",
     "description": "Makecode block for I2C UK-Binary EduBoard",
     "license": "MIT",
     "dependencies": {
