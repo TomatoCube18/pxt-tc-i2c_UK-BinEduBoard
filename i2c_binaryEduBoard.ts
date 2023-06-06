@@ -13,7 +13,7 @@
     A33 = 0x1B,                // 
 }
 
-  //% color="#275C6B" icon="\uf1ca weight=95 block="I2C-UK-Bin_EduBoard"
+  //% color="#275C6B" icon="\uf205 weight=95 block="I2C-UK-Bin_EduBoard"
 namespace i2cBinEduBoard {
     let BINEDUBOARD_I2C_ADDR = 0x18 
     let TactSwReading = 0;
@@ -100,7 +100,7 @@ namespace i2cBinEduBoard {
     //% blockId="display_digit"
     //% block="Display (Hex) %hexDigit at Position %pos with Decimal Pt. %decimal"
     //% hexDigit.min=0 hexDigit.max=15
-    //% pos.min=1 pos.max=4
+    //% pos.min=1 pos.max=4 pos.defl=1
     //% weight=60 
     export function set7SegLED(hexDigit:number, pos: number = 1, decimal:boolean): void {
         let displayBinary = (hexDigit & 0x0F) | (decimal ? 0x10 : 0x00);
@@ -111,8 +111,8 @@ namespace i2cBinEduBoard {
      * Display Custom Digit at position.
      */
     //% blockId="display_custom_digit"
-    //% block="Display Custom Segments at Position %pos with Segments A %a , Segments B %b, Segments C %c, Segments D %d, Segments E %e, Segments F %f, Segments G %g and Decimal Pt. %decimal"
-    //% pos.min=1 pos.max=4
+    //% block="Display Custom Segments at Position %pos with Segments A %a Segments B %b Segments C %c Segments D %d Segments E %e Segments F %f Segments G %g and Decimal Pt. %decimal"
+    //% pos.min=1 pos.max=4 pos.defl=1
     //% weight=55 
     export function setUser7SegLED(pos: number = 1, a: boolean, b: boolean, c: boolean, 
     d: boolean, e: boolean, f: boolean, g: boolean, decimal:boolean): void {
