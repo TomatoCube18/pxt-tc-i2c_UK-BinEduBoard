@@ -6,7 +6,7 @@
     //% block=0x18
     A30 = 0x18,               // 
     //% block=0x19
-    A31 = 0x21,                // 
+    A31 = 0x19,                // 
     //% block=0x1A
     A32 = 0x1A,                // 
     //% block=0x1B
